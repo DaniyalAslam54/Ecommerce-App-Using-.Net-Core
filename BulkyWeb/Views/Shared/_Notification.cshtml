@@ -1,0 +1,30 @@
+﻿
+@if(TempData["success"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="text/javascript">
+
+
+        Toastify({
+            text: '@TempData["success"]',
+            className: "success",
+            style: {
+            background: "radial-gradient(862px at 6% 18%, rgb(21, 219, 149) 9.4%, rgb(26, 35, 160) 83.6%)"
+            }
+        }).showToast();
+    </script>
+    
+}
+
+@if (TempData["error"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="text/javascript">
+        Toastify({
+            text: '@TempData["success"]',
+            className: "info"
+        }).showToast();
+    </script>
+}
