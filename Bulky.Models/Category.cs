@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BulkyWeb.Models
+namespace Bulky.Models
 {
     [Table("Categories")]
     public class Category
