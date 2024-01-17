@@ -60,21 +60,44 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     string wwRootPath = _webHostEnvironment.WebRootPath;
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwRootPath, @"images\Product");
-                    using (var fileStream = new FileStream(Path.Combine(fileName, productPath), FileMode.Create))
+
+                    if(!string.IsNullOrEmpty(productVM.product.ImageUrl))
+                    {
+                        var OldImage = Path.Combine(productPath, productVM.product.ImageUrl);
+                        if (System.IO.File.Exists(OldImage))
+                        {
+                            System.IO.File.Delete(OldImage);
+                        }
+                    }
+
+
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
-                    productVM.product.ImageUrl = @"images\Product" + fileName;
+                    productVM.product.ImageUrl =  fileName;
                 }
 
-                _unitOfWork.Product.Add(productVM.product);
+                if(productVM.product.Id == 0)
+                {
+                    TempData["success"] = "Product Added Successfullly";
+                    _unitOfWork.Product.Add(productVM.product);
+                }
+                else
+                {
+                    TempData["success"] = "Product Updated Successfullly";
+                    _unitOfWork.Product.Update(productVM.product);
+                }
+
+               
                 _unitOfWork.Save();
-                TempData["success"] = "Product Added Successfullly";
+                
 
                 return RedirectToAction("Index");
             }
             return View();
         }
+
         //[HttpGet]
         //public IActionResult Edit(int? id)
         //{
